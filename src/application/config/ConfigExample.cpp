@@ -85,16 +85,13 @@ Point getPointByKey(wstring wkey, JSONObject root){
 	return  Point(x, y);
 }
 
-ConfigExample::ConfigExample() {
-
-}
-
 /*
  * parsing constant form JSON file
  */
-ConfigExample::ConfigExample(char* path, int inputType) {
+ConfigExample::ConfigExample(char* path, int inputMode, int printMode) {
 
-	this->inputType = inputType;
+	this->inputMode = inputMode;
+	this->printMode = printMode;
 	FileSystemHelper mFileSystemHelper;
 	string s = mFileSystemHelper.getFileContent(path);
     cout << s << endl;

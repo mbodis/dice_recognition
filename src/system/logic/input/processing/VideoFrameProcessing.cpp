@@ -13,7 +13,7 @@ using namespace cv;
 
 #include <thread>
 #include "../path/SourcePath.h"
-#include "../../../../application/controller/ImageAnalyser.h"
+#include "../../../controllers/ImageAnalyser.h"
 #include "../../../config/Constants.h"
 
 /* SHARED PROCESSING LABEL*/
@@ -50,11 +50,9 @@ void VideoFrameProcessing::runRTV(SourcePath *sourcePath) {
 	}
 }
 
-void VideoFrameProcessing::start(int inputMode, int printMode) {
+void VideoFrameProcessing::start() {
         
 	thread t(runRTV, sourcePath);
-	ImageAnalyser analyser(c, inputMode, printMode,  
-			new InputFacade(new Move()));
 
     bool isRunningLocal = true;
 	while (!isInputFinished) {
@@ -62,7 +60,7 @@ void VideoFrameProcessing::start(int inputMode, int printMode) {
             lockClone = true;
             processingFrame = frameShared.clone();
             lockClone = false;
-            isRunningLocal = analyser.analyse(processingFrame, videoTimeShared);        
+            isRunningLocal = mImageAnalyser->analyse(processingFrame, videoTimeShared);
         }        
         
         if (!isRunningLocal){

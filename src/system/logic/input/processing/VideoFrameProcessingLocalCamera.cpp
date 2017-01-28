@@ -20,7 +20,6 @@ using namespace cv;
 
 #include <thread>
 #include "../path/SourcePath.h"
-#include "../../../../application/controller/ImageAnalyser.h"
 #include "../../../config/Constants.h"
 
 /* SHARED PROCESSING LABEL*/
@@ -50,10 +49,9 @@ void VideoFrameProcessingLocalCamera::runRTV(SourcePath *sourcePath) {
 	}
 }
 
-void VideoFrameProcessingLocalCamera::start(int inputMode, int printMode) {
+void VideoFrameProcessingLocalCamera::start() {
 	thread t(runRTV, sourcePath);
-	ImageAnalyser analyser(c, inputMode, printMode,
-			new InputFacade(new Move()));
+//	mImageAnalyser->setInputFacade(new InputFacade(new Move()));
 
     bool isRunningLocal = true;
 	while (!isInputFinished2) {
@@ -61,7 +59,7 @@ void VideoFrameProcessingLocalCamera::start(int inputMode, int printMode) {
             lockClone2 = true;
             processingFrame2 = frameShared2.clone();
             lockClone2 = false;
-            isRunningLocal = analyser.analyse(processingFrame2, videoTimeShared2);
+            isRunningLocal = mImageAnalyser->analyse(processingFrame2, videoTimeShared2);
         }
 
         if (!isRunningLocal){
@@ -73,16 +71,13 @@ void VideoFrameProcessingLocalCamera::start(int inputMode, int printMode) {
 	t.join();
 }
 
-void VideoFrameProcessingLocalCamera::startEveryFrame(int inputMode, int printMode) {
+void VideoFrameProcessingLocalCamera::startEveryFrame() {
 
 	VideoCapture stream1(sourcePath->cameraIdx);
 
 	stream1.set(CV_CAP_PROP_BUFFERSIZE, 1);
 	if (!stream1.isOpened())
 		throw "Error opening video stream or file";
-
-	ImageAnalyser analyser(c, inputMode, printMode,
-			new InputFacade(new Move()));
 
 	int v_ts;
 	Mat mat;
@@ -99,7 +94,7 @@ void VideoFrameProcessingLocalCamera::startEveryFrame(int inputMode, int printMo
 				cout << "end of video file" << endl;
 				break;
 			}
-			isRunning = analyser.analyse(mat, v_ts);
+			isRunning = mImageAnalyser->analyse(mat, v_ts);
 		}
 	}
 }

@@ -8,11 +8,10 @@
 #include <opencv2/highgui/highgui.hpp>
 
 #include "DirImageFrameProcessing.h"
-#include "../../../../application/controller/ImageAnalyser.h"
 
 using namespace cv;
 
-DirImageFrameProcessing::DirImageFrameProcessing(ConfigExample *mConfigExample, SourcePath *sourcePath):
+DirImageFrameProcessing::DirImageFrameProcessing(ConfigExample *mConfigExample, ImageAnalyser *mImageAnalyser, SourcePath *sourcePath):
     FrameProcessing(sourcePath, mConfigExample){
     selectedImage = 0;
     mFileSystemHelper = new FileSystemHelper();
@@ -23,8 +22,7 @@ DirImageFrameProcessing::DirImageFrameProcessing(ConfigExample *mConfigExample, 
     cout << "number files in folder : " << folderSize << endl;
     cout << "selected image: " << selectedImagePath << endl;
 
-    mImageAnalyser = new ImageAnalyser(c, INPUT_MODE_IMG_FOLDER, PRINT_MODE_DEBUG,
-    			new InputFacade(this));
+    this->mImageAnalyser = mImageAnalyser;
 }
 
 void DirImageFrameProcessing::start() {

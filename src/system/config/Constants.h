@@ -13,7 +13,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 using namespace cv;
 
-static char* ASSETS_FOLDER = "../assets_opencv/";
+static char* ASSETS_FOLDER = "../../assets_opencv/";
 
 static int INPUT_MODE_IMG_FOLDER = 1;
 static int INPUT_MODE_VIDEO_RT = 2;

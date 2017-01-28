@@ -3,15 +3,15 @@
 #define DICEANALYSER_H
 
 
-#include "DebugFrames.h"
-#include "../../system/logic/input/keyboard/InputFacade.h"
-#include "../../system/features/BinaryFilter.h"
+//#include "DebugFrames.h"
+#include "../../system/filters/BinaryFilter.h"
 #include "../config/ConfigExample.h"
+#include "../../system/controllers/ImageAnalyser.h"
 
 /*
  * custom application logic 
  */
-class DiceAnalyser{
+class DiceAnalyser : public ImageAnalyser{
     
 private:
     
@@ -38,12 +38,16 @@ private:
     //logic
     bool isFrameMoving = true;
 
-    DebugFrames* mDebugFrames;
+//    DebugFrames* mDebugFrames;
     
 public:
     
-    DiceAnalyser(DebugFrames*);
+    DiceAnalyser(ConfigExample *config, int inputMode, int printMode) : ImageAnalyser(config, inputMode, printMode){
+    	initTrackball();
+    }
     
+    void executeCustomLogic(Mat, int);
+
     void analyse(Mat, int);
     void saveLastFrame();
 

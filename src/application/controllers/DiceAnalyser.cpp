@@ -1,6 +1,6 @@
 
 
-#include "DiceAnalyser.h"
+#include "../controllers/DiceAnalyser.h"
 
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/core.hpp>
@@ -12,15 +12,13 @@ using namespace cv;
 using namespace std;
 
 
-DiceAnalyser::DiceAnalyser(DebugFrames *dDebugFrames){
-    this->mDebugFrames = dDebugFrames;
-
-    initTrackball();
-}
-
 void DiceAnalyser::initTrackball(){
     namedWindow("tools", 1);
     createTrackbar( "th background", "tools", &sliderThresholdBg, slider_max, on_trackbar);
+}
+
+void DiceAnalyser::executeCustomLogic(Mat frame, int videoTime){
+	analyse(frame, videoTime);
 }
 
 
@@ -30,7 +28,7 @@ void DiceAnalyser::analyse(Mat frame, int videoTime){
     saveInputFrame(frame, videoTime);
     
     // movement detection
-    if (mDebugFrames->c.inputType == INPUT_MODE_IMG_FOLDER){
+    if (mDebugFrames->c->inputMode == INPUT_MODE_IMG_FOLDER){
     	isFrameMoving = false;
     }else{
     	detectMovement(&grayFrame, &lastGrayFrame);
@@ -241,7 +239,7 @@ void DiceAnalyser::saveInputFrame(Mat frame, int videoTime){
     equalizeHist(grayFrame, grayFrame);
     
     // save img size and setup font size
-    mDebugFrames->c.initFontSize(&frame);
+    mDebugFrames->c->initFontSize(&frame);
 }
 
 void DiceAnalyser::saveLastFrame(){

@@ -12,21 +12,22 @@
 #include "../keyboard/abstract/Move.h"
 #include "../../../helper/FileSystemHelper.h"
 #include "../../../../application/config/ConfigExample.h"
-#include "../../../../application/controller/ImageAnalyser.h"
+#include "../../../controllers/ImageAnalyser.h"
 
 using namespace std;
 
 
 class VideoFrameProcessingRunEveryFrame : public FrameProcessing{
 	private:
+		ImageAnalyser *mImageAnalyser;
 
 	public:
-		void start(int, int);
 
-		VideoFrameProcessingRunEveryFrame(SourcePath* sourcePath, ConfigExample* mConfigExample):
-	        FrameProcessing(sourcePath, mConfigExample){}
-	};
-
-
+		VideoFrameProcessingRunEveryFrame(SourcePath* sourcePath, ConfigExample* mConfigExample, ImageAnalyser* mImageAnalyser):
+	        FrameProcessing(sourcePath, mConfigExample){
+			this->mImageAnalyser = mImageAnalyser;
+		}
+		void start();
+};
 
 #endif /* SRC_SYSTEM_LOGIC_INPUT_PROCESSING_VIDEOFRAMEPROCESSINGRUNEVERYFRAME_H_ */

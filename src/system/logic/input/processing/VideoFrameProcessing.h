@@ -10,16 +10,21 @@
 
 #include "../path/SourcePath.h"
 #include "FrameProcessing.h"
+#include "../../../controllers/ImageAnalyser.h"
 
 class VideoFrameProcessing : public FrameProcessing{
 private:    
+    ImageAnalyser *mImageAnalyser;
     static void runRTV(SourcePath* path);
     
 public:
-	void start(int, int);
 
-	VideoFrameProcessing(SourcePath* sourcePath, ConfigExample* mConfigExample):
-        FrameProcessing(sourcePath, mConfigExample){}
+	VideoFrameProcessing(SourcePath* sourcePath, ConfigExample* mConfigExample, ImageAnalyser* mImageAnalyser):
+        FrameProcessing(sourcePath, mConfigExample){
+		this->mImageAnalyser = mImageAnalyser;
+	}
+
+	void start();
 };
 
 

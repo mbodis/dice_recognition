@@ -12,7 +12,7 @@
 
 #include "../../system/config/Constants.h"
 #include "../../system/helper/FileSystemHelper.h"
-#include "../config/ConfigExample.h"
+#include "../../application/config/ConfigExample.h"
 
 using namespace std;
 using namespace cv;
@@ -43,7 +43,7 @@ private:
 	void printPresentationInfo(Mat*);
     
 public:
-    ConfigExample c;
+    ConfigExample *c;
 
 	DebugFrames(ConfigExample*, int, int);
 	~DebugFrames(void);

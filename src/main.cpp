@@ -25,6 +25,7 @@ using namespace cv;
 using namespace std;
 
 #include "application/config/ConfigExample.h"
+#include "application/controllers/DiceAnalyser.h"
 #include "system/logic/input/ProcessingFacade.h"
 
 /*
@@ -50,8 +51,9 @@ static int INPUT_MODE = INPUT_MODE_VIDEO_RT;
  */
 int main(int argc, char **argv) {
 
-	ConfigExample mConfigExample(EXAMPLE_CONFIG, INPUT_MODE);
-    ProcessingFacade mProcessingFacade(&mConfigExample, PRINT_MODE, INPUT_MODE);
+	ConfigExample mConfigExample(EXAMPLE_CONFIG, INPUT_MODE, PRINT_MODE);
+	DiceAnalyser mDiceAnalyser(&mConfigExample, INPUT_MODE, PRINT_MODE);
+    ProcessingFacade mProcessingFacade(&mConfigExample, &mDiceAnalyser);
     mProcessingFacade.runAnalyse();
 
 	return 0;

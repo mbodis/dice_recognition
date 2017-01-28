@@ -5,11 +5,11 @@
  *      Author: mbodis
  */
 
+#include "../controllers/DebugFrames.h"
+
 #include <opencv2/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-
-#include "DebugFrames.h"
 
 #include "../../system/helper/FileSystemHelper.h"
 #include "../../system/helper/DrawMethodHelper.h"
@@ -27,7 +27,7 @@ using namespace cv;
  */
 DebugFrames::DebugFrames(ConfigExample *mConfigExample, int mode, int typePrintInfo) {
 	cout << "Object DebugFrames is being created" << endl;
-    this->c = *mConfigExample;
+    this->c = mConfigExample;
     this->INPUT_MODE = mode;
 	this->typePrintInfo = typePrintInfo;
 	if (!mFileSystemHelper.DirectoryExists(OUTPUT_FOLDER)) {
@@ -104,9 +104,9 @@ void DebugFrames::printDebugInfo(Mat *frame) {
 
 	if (debugWindow) {
 
-		int row = 3 * c.ROW;
+		int row = 3 * c->ROW;
 
-		cv::rectangle(*frame, cvPoint(0, 1.5 * c.ROW), cvPoint(350, frame->rows),
+		cv::rectangle(*frame, cvPoint(0, 1.5 * c->ROW), cvPoint(350, frame->rows),
 				colorBlack,
 				CV_FILLED);
 	}
@@ -122,7 +122,7 @@ void DebugFrames::printPresentationInfo(Mat *frame){
 
 void DebugFrames::drawStatusTime(Mat *frame, int time) {
 
-	cv::rectangle(*frame, cvPoint(0, 0), cvPoint(350, 1.5 * c.ROW), colorBlack,
+	cv::rectangle(*frame, cvPoint(0, 0), cvPoint(350, 1.5 * c->ROW), colorBlack,
 	CV_FILLED);
 
 	int hours = (time / (1000 * 60 * 60));
@@ -146,20 +146,20 @@ void DebugFrames::drawStatusTime(Mat *frame, int time) {
         string strTime =
 			string("video: ").append(hr.str()).append(":").append(min.str()).append(
 					":").append(sec.str()).append(":").append(mili.str());
-		cv::putText(*frame, strTime, cvPoint(5, c.ROW), FONT_HERSHEY_COMPLEX_SMALL,
-				c.FONT_SIZE, colorWhite, 1,
+		cv::putText(*frame, strTime, cvPoint(5, c->ROW), FONT_HERSHEY_COMPLEX_SMALL,
+				c->FONT_SIZE, colorWhite, 1,
 				CV_AA);
                 
     } else if (INPUT_MODE == INPUT_MODE_URL) {
-		cv::putText(*frame, string("url: ").append(c.URL), cvPoint(5, c.ROW),
-				FONT_HERSHEY_COMPLEX_SMALL, c.FONT_SIZE, colorWhite, 1,
+		cv::putText(*frame, string("url: ").append(c->URL), cvPoint(5, c->ROW),
+				FONT_HERSHEY_COMPLEX_SMALL, c->FONT_SIZE, colorWhite, 1,
 				CV_AA);
         
 	} else if (INPUT_MODE == INPUT_MODE_IMG_FOLDER) {
 		cv::putText(*frame,
 				string("folder: ").append(
-						c.FOLDER), cvPoint(5, c.ROW),
-				FONT_HERSHEY_COMPLEX_SMALL, c.FONT_SIZE, colorWhite, 1,
+						c->FOLDER), cvPoint(5, c->ROW),
+				FONT_HERSHEY_COMPLEX_SMALL, c->FONT_SIZE, colorWhite, 1,
 				CV_AA);
 	}
 }

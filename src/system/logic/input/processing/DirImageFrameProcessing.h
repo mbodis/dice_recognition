@@ -12,13 +12,13 @@
 #include "../keyboard/abstract/Move.h"
 #include "../../../helper/FileSystemHelper.h"
 #include "../../../../application/config/ConfigExample.h"
-#include "../../../../application/controller/ImageAnalyser.h"
+#include "../../../controllers/ImageAnalyser.h"
 
 using namespace std;
 
 
 class DirImageFrameProcessing : public FrameProcessing, public Move{
-    
+private:
 	bool isFinished = false;
 	int folderSize;
 	int selectedImage;
@@ -31,7 +31,7 @@ class DirImageFrameProcessing : public FrameProcessing, public Move{
     ImageAnalyser* mImageAnalyser;
 public:
 
-	DirImageFrameProcessing(ConfigExample* mConfigExample, SourcePath* sourcePath);
+	DirImageFrameProcessing(ConfigExample* mConfigExample, ImageAnalyser* mImageAnalyser, SourcePath* sourcePath);
 
     void start();
 	void quit();

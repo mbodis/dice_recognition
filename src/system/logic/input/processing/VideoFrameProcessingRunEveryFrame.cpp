@@ -13,19 +13,15 @@ using namespace cv;
 
 #include <thread>
 #include "../path/SourcePath.h"
-#include "../../../../application/controller/ImageAnalyser.h"
 #include "../../../config/Constants.h"
 
-void VideoFrameProcessingRunEveryFrame::start(int inputMode, int printMode) {
+void VideoFrameProcessingRunEveryFrame::start() {
 
 	VideoCapture capture;
 
 	capture.set(CV_CAP_PROP_BUFFERSIZE, 1);
 	if (!capture.open(c->VIDEO_NAME))
 		throw "Error opening video stream or file";
-
-	ImageAnalyser analyser(c, inputMode, printMode,
-			new InputFacade(new Move()));
 
 	int v_ts;
 	Mat mat;
@@ -42,7 +38,7 @@ void VideoFrameProcessingRunEveryFrame::start(int inputMode, int printMode) {
 				cout << "end of video file" << endl;
 				break;
 			}
-			isRunning = analyser.analyse(mat, v_ts);
+			isRunning = mImageAnalyser->analyse(mat, v_ts);
 		}
 	}
 }
